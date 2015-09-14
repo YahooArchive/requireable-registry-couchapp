@@ -63,7 +63,9 @@ function requireEmbedded(mod, ddoc) {
  * Show the specified package, optionally with version.
  */
 function showPackage(doc, name, version) {
-    return JSON.parse(this.showPackageString(doc, name, version));
+    var result = this.showPackageString(doc, name, version);
+    result.body = JSON.parse(result.body);
+    return result;
 }
 
 /*
@@ -75,7 +77,7 @@ function showPackageString(doc, name, version) {
         request.query.version = version;
     }
 
-    return this.shows.package(doc, request).body;
+    return this.shows.package(doc, request);
 }
 
 /*

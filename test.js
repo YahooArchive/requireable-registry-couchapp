@@ -32,19 +32,19 @@ describe('ddoc', function() {
 
     describe('showPackage', function(){
         it('shows top level pacakge', function(){
-            assert.deepEqual(ddoc.showPackage(origDoc, 'pitesti'), origDoc);
+            assert.deepEqual(ddoc.showPackage(origDoc, 'pitesti').body, origDoc);
         });
         it('shows package version', function(){
-            assert.deepEqual(ddoc.showPackage(origDoc, 'pitesti', '1.0.0'), origDoc.versions['1.0.0']);
+            assert.deepEqual(ddoc.showPackage(origDoc, 'pitesti', '1.0.0').body, origDoc.versions['1.0.0']);
         });
     });
 
     describe('showPackageString', function(){
         it('shows top level pacakge', function(){
-            assert.deepEqual(JSON.parse(ddoc.showPackageString(origDoc, 'pitesti')), origDoc);
+            assert.deepEqual(JSON.parse(ddoc.showPackageString(origDoc, 'pitesti').body), origDoc);
         });
         it('shows package version', function(){
-            assert.deepEqual(JSON.parse(ddoc.showPackageString(origDoc, 'pitesti', '1.0.0')), origDoc.versions['1.0.0']);
+            assert.deepEqual(JSON.parse(ddoc.showPackageString(origDoc, 'pitesti', '1.0.0').body), origDoc.versions['1.0.0']);
         });
     });
 
