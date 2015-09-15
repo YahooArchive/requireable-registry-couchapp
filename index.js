@@ -12,7 +12,8 @@ var fs = require('fs'),
 
 var WRAPPER_BEFORE = "(function (exports, require, module, process) { ",
     WRAPPER_AFTER = "\n});",
-    COUCHAPP_ROOT = "app.js";
+    COUCHAPP_ROOT = "app.js",
+    COUCHAPP_PATH = findCouchapp(__dirname);
 
 // cache for the loaded scripts
 var scripts = {};
@@ -170,4 +171,19 @@ module.exports = function getDesignDoc(sandbox) {
 
     // Return the design doc
     return moduleInfo.exports;
+}
+
+// Why not just use require.resolve?
+//
+// Turns out npm-registry-couchapp is not a "module" by node standards, and
+// thus it can't be found with require.resolve, so we need to do it manually.
+function findCouchapp(dir) {
+    var potentialDir = path.join(dir, 'node_modules', 'npm-registry-couchapp');
+    if (fs.existsSync(potentialDir)) {
+        return potentialDir;
+    } else if (dir === path.parse(dir).root) {
+        throw new Error('coul not find npm-registry-couchapp');
+    } else {
+        return findCouchapp(path.dirname(dir));
+    }
 }
