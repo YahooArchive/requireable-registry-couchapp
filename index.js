@@ -28,7 +28,7 @@ function getScript(mod) {
         return scripts[mod];
     }
 
-    var modfile = path.join(__dirname, 'node_modules', 'npm-registry-couchapp', 'registry', mod),
+    var modfile = path.join(COUCHAPP_PATH, 'registry', mod),
         filetext = fs.readFileSync(modfile, "utf8"),
         content = WRAPPER_BEFORE + filetext  + WRAPPER_AFTER,
         script = vm.createScript(content, mod + ".vm");
