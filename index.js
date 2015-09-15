@@ -177,13 +177,14 @@ module.exports = function getDesignDoc(sandbox) {
 //
 // Turns out npm-registry-couchapp is not a "module" by node standards, and
 // thus it can't be found with require.resolve, so we need to do it manually.
-function findCouchapp(dir) {
+function findCouchapp(dir, prev) {
+    if (dir === prev) {
+        throw new Error('could not find npm-registry-couchapp');
+    }
     var potentialDir = path.join(dir, 'node_modules', 'npm-registry-couchapp');
     if (fs.existsSync(potentialDir)) {
         return potentialDir;
-    } else if (dir === path.parse(dir).root) {
-        throw new Error('coul not find npm-registry-couchapp');
     } else {
-        return findCouchapp(path.dirname(dir));
+        return findCouchapp(path.dirname(dir), dir);
     }
 }
